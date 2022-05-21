@@ -1,0 +1,1934 @@
+AIM:
+To write a program to detect errors using vertical redundancy check (VRC)
+
+ALGORITHM:
+Step 1: Start the program
+Step 2: Declare all variables
+Step 3: Choose the option Sender.
+    Step 4: Enter the no of messages to be sent
+    Step 5: Read the message to be sent
+    Step 6: Enter the no of bits to be sent.
+    Step 7: Parity bit is appended to every data unit so that total number of      
+                 1's in the unit becomes even
+ Step 8:  Print the message that sent to the receiver
+ Step 9:  Choose the option Receiver.
+ Step 10: Enter the no of messages that received
+ Step 11: Read the message that received 
+ Step 12: Enter the no of bits needed for received message
+ Step 13: Check for even parity.
+ Step 14: If the total number of 1s in data received are even that                
+               is even parity and there is no error. This can be done 
+               by Modulo 2 Division. If remainder is zero there is no 
+               error.
+Step 15: If remainder is non zero there is an error.
+Step 16: Stop the program
+
+
+
+
+ 
+
+CODING :
+
+VRC.C
+
+#include <stdio.h>
+#include <conio.h>
+int main()
+{
+int a[20][20],ch,i,j,k,no,n,m,sum,re,r[50],flag=0;
+do
+{
+printf("\nVRC");
+printf("\n1.Sender \n2.Receiver\n3.Exit");
+printf("\nEnter your choice:");
+scanf("%d",&ch);
+switch(ch)
+{
+case 1:
+printf("Enter No. of Messages:");
+scanf("%d",&n);
+printf("\nEnter the no. of bits for message:");
+scanf("%d",&m);
+for(i=1;i<=n;i++)
+ {
+printf("\nEnter %d message= ",i);
+for(j=1;j<m;j++){
+scanf("%d",&a[i][j]);
+}
+}
+for(i=0;i<=n;i++)
+ {
+  sum=0;
+for(j=0;j<=m;j++)
+sum=sum+a[i][j];
+a[i][j]=(sum%2);
+}
+for(i=0;i<=m;i++)
+{
+sum=0;
+for(j=0;j <= n; j++);
+sum=sum + a[j][i]; a[j][i]=(sum%2);
+}
+printf("\nMessage sent is :-\n");
+for(i=0;i<=n;i++)
+{
+for(j=0;j<=m;j++)
+printf("%d ",a[i][j]);
+printf(" ");
+}
+break;
+case 2:
+flag=0;
+printf("Enter Number of bits for received message=");
+scanf("%d",&re);
+printf("\nEnter The Received Message:-\n");
+for(i=0;i<=n;i++)
+scanf("%d",&r[i]);
+printf("Enter Number of Messages=");
+scanf("%d",&n);
+m=re/(n+1);
+k=0;
+for(i=0;i<=n;i++)
+{
+for(j=0;j<=m;j++)
+ {
+ a[i][j]=r[k];
+ k++;
+}
+}
+for(i=0;i<=n;i++)
+{
+for(j=0;j<=m;j++)
+printf("%d ",a[i][j]);
+printf("\n");
+}
+for(i=0;i<=n;i++)
+{
+sum=0;
+for(j=0;j<=m;j++)
+{
+sum=sum+a[i][j];
+}
+if(sum%2!=0)
+{
+printf("\nThere is an Error");
+flag=1;
+break;
+}
+}
+if(flag!=1)
+{
+for(i=0;i<=m;i++)
+{
+sum=0;
+for(j=0;j<=n;j++)
+{
+sum=sum+a[j][i];
+}
+if(sum%2!=0)
+{
+printf("\nThere is an Error");
+flag=1;
+break;
+}
+}
+}
+if(flag!=1)
+printf("No Error");
+break;
+case 3: exit(0);
+}
+}
+while(1);
+}
+
+
+OUPUT :
+VRC
+1.Sender
+2.Receiver
+3.Exit
+
+Enter your choice:1
+
+Enter No. of Messages:3
+
+Enter the no. of bits for message:4
+Enter 1 message=1 0 0 1
+Enter 2 message=1 1 1 0
+Enter 3 message=0 0 1 0
+
+Message sent is :-
+1 0 0 1 0 1 1 1 0 1 0 0 1 0 1 0 1 0 1 0
+
+=========================================
+
+Enter your choice:2
+
+Enter Number of bits for received message=20
+
+Enter The Received Message:-
+1 0 0 1 0 1 1 1 0 1 0 0 1 0 1 0 1 0 1 0
+
+Enter Number of Messages=3
+1 0 0 1 0
+1 1 1 0 1
+0 0 1 0 1
+0 1 0 1 0
+
+No Error
+
+
+RESULT:
+Thus the given program has been executed successfully.
+Ex.No. 02
+Date: 
+Detect Errors Using Longitudinal Redundancy Check (LRC)
+
+
+
+AIM:
+To write a program to detect errors using longitudinal redundancy check (LRC)
+
+ALGORITHM:
+
+Step 1: Start the program
+Step 2: Include the header files
+Step 3: Declare the variables
+Step 4: Enter the length of data stream.
+Step 5: Read the value of data stream.
+Step 6: Count the no of 1’s in the data block 
+Step 7: A redundant bit(parity bit) is added to the whole block .
+Step 8: After addition this block is transmitted to receiver side. 
+Step 9: If the received data stream divided by 2. And remainder is zero  
+             then there is no error. Otherwise there will be error.
+Step 10:If there is no error, receiver accepts the data. 
+Step 11:Stop the program
+
+
+
+
+
+
+
+
+
+
+
+CODING :
+
+LRC.C
+#include<stdio.h>
+#include<conio.h>
+int main ()
+{
+int l1,bit[100],count=0,i,choice;
+printf("Enter the length of data stream:");
+scanf("%d",&l1);
+printf("\n Enter the data stream");
+for(i=0;i<=l1;i++)
+{
+scanf("%d",&bit[i]);
+if(bit[i]==1)
+count=count+1;
+}
+printf("Number of 1's are %d",count);
+printf("\n Enter the choice to implement parity bit");
+printf("\n-1 Sender side\n-2 Receiver side\n");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:
+if(count%2==0)
+bit[l1]==0;
+else
+bit[l1]==1;
+printf("\n The data stream after adding parity bit is\n");
+for(i=0;i<=l1;i++)
+printf("%d",bit[i]);
+break;
+case 2:
+if(count%2==0)
+printf("There is an error in the received data stream");
+else
+printf("There are no error in the received data stream");
+break;
+default:
+printf("Invalid choice");
+break;
+}
+getch();
+}
+
+
+
+OUTPUT :
+
+Enter the length of data stream: 10
+Enter the data stream 1 1 0 1 0 1 1 1 0 1
+Number of 1's are 7
+Enter the choice to implement parity bit
+1-Sender side
+2-Receiver side
+1
+The data stream after adding parity bit is
+11010111011
+Enter the length of data stream: 10
+Enter the data stream 1 1 1 1 1 0 0 0 1 0
+Number of 1's are 6
+Enter the choice to implement parity bit
+1-Sender side
+2-Receiver side
+2
+There is no error in the received data stream
+
+
+
+
+
+
+
+
+RESULT:
+Thus the given program has been executed successfully.
+
+Ex.No. 03
+Date: 
+Detect Errors Using Cyclic Redundancy Check (CRC)
+
+AIM:
+To write a program to detect errors using cyclic redundancy check (CRC)
+
+ALGORITHM:
+
+Step 1: Start the program
+Step 2: Include package files
+Step 3: Initialize the variables
+Step 4: Enter the size of the data array
+Step 5: Read the data one by one
+Step 6: Enter the size of the divisor array
+Step 7: Enter divisor bits in the array one by one.
+    Step 8: Data is first augmented by adding j-1 zeros in the end of the data
+    Step 9: Divide binary data modulo-2 binary division to using by the key 
+                 and store remainder of division.
+    Step 10: Instead of subtraction, we use XOR here.
+    Step 11: In each step, a copy of the divisor (or data) is XORed with the j 
+                  bits of the dividend (or key).
+    Step 12: The result of the XOR operation (remainder) is (j-1) bits, which is 
+                  used for the next step after 1 extra bit is pulled down to make it 
+                  j bits long.
+    Step 13: When there are no bits left to pull down, we have a result. 
+    Step 14: At sender side, the (j-1)-bit remainder which is appended at the 
+                  end of the data to form the encoded data and send the same
+    Step 15: At receiver side, divide the data with divisor.
+    Step 16: If remainder is zero, the data has been received without any 
+                  error.
+    Step 17: If remainder is non zero the corrupted data has been received.
+    Step 18: Stop the program
+
+CODING:
+
+CRCExample.java
+
+ import java.util.*;  
+ class CRCExample 
+{  
+    public static void main(String args[])
+ {  
+        Scanner scan = new Scanner(System.in);  
+        int size;  
+        System.out.println("Enter the size of the data array: ");  
+        size = scan.nextInt();  
+        int data[] = new int[size];          
+        System.out.println("Enter data bits in the array one by one: ");  
+        for(int i = 0 ; i < size ; i++)
+		 {  
+            System.out.println("Enter bit " + (size-i) + ":");  
+            data[i] = scan.nextInt();  
+                 }  
+        System.out.println("Enter the size of the divisor array:");  
+        size = scan.nextInt();          
+        int divisor[] = new int[size];  
+        System.out.println("Enter divisor bits in the array one by one: ");  
+        for(int i = 0 ; i < size ; i++)
+           {  
+            System.out.println("Enter bit " + (size-i) + ":");  
+            divisor[i] = scan.nextInt();  
+           }  
+        int rem[] = divideDataWithDivisor(data, divisor);          
+        for(int i = 0; i < rem.length-1; i++) 
+        {  
+            System.out.print(rem[i]);  
+        }  
+        System.out.println("\nGenerated CRC code is: ");            
+        for(int i = 0; i < data.length; i++)
+           {  
+            System.out.print(data[i]);  
+          }  
+        for(int i = 0; i < rem.length-1; i++)
+       {  
+            System.out.print(rem[i]);  
+        }  
+        System.out.println();  
+        int sentData[] = new int[data.length + rem.length - 1];  
+        System.out.println("Enter bits in the array which you want to send: ");  
+        for(int i = 0; i < sentData.length; i++)
+        {  
+            System.out.println("Enter bit " +(sentData.length - 1)+ ":");  
+            sentData[i] = scan.nextInt();  
+        }  
+        receiveData(sentData, divisor);  
+    }  
+    static int[] divideDataWithDivisor(int oldData[], int divisor[])
+     {  
+        int rem[] = new int[divisor.length];  
+        int i;  
+        int data[] = new int[oldData.length + divisor.length];  
+        System.arraycopy(oldData, 0, data, 0, oldData.length);  
+        System.arraycopy(data, 0, rem, 0, divisor.length);  
+         for(i = 0; i < oldData.length; i++) 
+           {  
+            System.out.println((i+1) + ".) First data bit is : "+ rem[0]);  
+            System.out.print("Remainder : ");  
+            if(rem[0] == 1)
+            {  
+                for(int j = 1; j < divisor.length; j++)
+                   {  
+                    rem[j-1] = exorOperation(rem[j], divisor[j]);  
+                    System.out.print(rem[j-1]);  
+                  }  
+             }  
+            else 
+            {  
+                   for(int j = 1; j < divisor.length; j++) 
+                  {  
+                    rem[j-1] = exorOperation(rem[j], 0);  
+                    System.out.print(rem[j-1]);  
+                }  
+            }  
+            rem[divisor.length-1] = data[i+divisor.length];  
+            System.out.println(rem[divisor.length-1]);  
+        }  
+        return rem;  
+    }  
+     static int exorOperation(int x, int y)
+       {  
+         if(x == y) 
+          {  
+            return 0;  
+        }  
+        return 1;  
+    }  
+    static void receiveData(int data[], int divisor[]) 
+      {  
+       int rem[] = divideDataWithDivisor(data, divisor);  
+        for(int i = 0; i < rem.length; i++) 
+        {  
+            if(rem[i] != 0) 
+             {  
+                System.out.println("Corrupted data received...");  
+                return;  
+             }  
+        }  
+        System.out.println("Data received without any error.");  
+    }  
+} 
+
+
+
+
+
+
+
+
+
+OUTPUT:
+F:\jdk1.8\bin>javac CRCExample.java
+
+F:\jdk1.8\bin>java CRCExample
+
+Enter the size of the data array:
+4
+Enter data bits in the array one by one:
+Enter bit 4:
+1
+Enter bit 3:
+2
+Enter bit 2:
+3
+Enter bit 1:
+4
+Enter the size of the divisor array:
+4
+Enter divisor bits in the array one by one:
+Enter bit 4:
+8
+Enter bit 3:
+9
+Enter bit 2:
+0
+Enter bit 1:
+1
+1.) First data bit is : 1
+Remainder : 1110
+2.) First data bit is : 1
+Remainder : 1110
+3.) First data bit is : 1
+Remainder : 1110
+4.) First data bit is : 1
+Remainder : 1110
+111
+Generated CRC code is:
+1234111
+Enter bits in the array which you want to send:
+Enter bit 6:
+1
+Enter bit 6:
+2
+Enter bit 6:
+3
+Enter bit 6:
+4
+Enter bit 6:
+5
+Enter bit 6:
+6
+Enter bit 6:
+7
+1.) First data bit is : 1
+Remainder : 1115
+2.) First data bit is : 1
+Remainder : 1116
+3.) First data bit is : 1
+Remainder : 1117
+4.) First data bit is : 1
+Remainder : 1110
+5.) First data bit is : 1
+Remainder : 1110
+6.) First data bit is : 1
+Remainder : 1110
+7.) First data bit is : 1
+Remainder : 1110
+Corrupted data received...
+
+
+
+
+
+
+
+
+RESULT:
+Thus the given program has been executed successfully.
+Ex.No. 04
+Date: 
+Socket Programming To Implement Asynchronous Communication
+
+
+AIM:
+To write a socket program to implement asynchronous communication.
+
+ALGORITHM:
+CLIENT
+Step 1: Start the program
+Step 2: Include necessary package in java.
+Step 3: A socket is created using AsynchronousSocketChannel class.
+Step 4: bind function binds the socket to the address and port number 
+             specified client.connect(new InetSocketAddress();
+Step 5: The client establishes a connection to the server.
+Step 6: The client accept the connection and to send the data 
+             from client to server.
+Step 7: The client communicates the server to send the end of the  
+             message
+Step 8: Stop the program.
+SERVER
+Step 1: Start the program
+Step 2: Include necessary package in java
+Step 3: AsynchronousSocketChannel is responsible for all the establishing 
+             interaction between the client and the server at both ends.
+Step 4: create a socket in server to client
+Step 5: The server establishes a connection to the client.
+Step 6: The server accept the connection using 
+             Future<AsynchronousSocketChannel> acceptCon =    
+             server.accept(); 
+Step 7: send the data from server to client and vice versa
+Step 8: The server communicate the client to send the end of the message.
+Step 9: Stop the program.
+
+CODING :
+
+ClientAsync. Java
+
+package Asynchronous;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+public class ClientAsync 
+{
+   public static void main(String[] args)
+ {
+ try (AsynchronousSocketChannel client =                        
+                                               AsynchronousSocketChannel.open())
+ {
+         Future<Void> result = client.connect(new      
+                                              InetSocketAddress("127.0.0.1", 1234));
+         result.get();
+         String str= "Hello! How are you?";
+         ByteBuffer buffer = ByteBuffer.wrap(str.getBytes());
+         Future<Integer> writeval = client.write(buffer);
+         System.out.println("Writing to server: "+str);
+         writeval.get();
+         buffer.flip();
+         Future<Integer> readval = client.read(buffer);
+         System.out.println("Received from server: "+new   
+                                                                   String(buffer.array()).trim());
+         readval.get();
+         buffer.clear();
+       }
+      catch (ExecutionException | IOException e)
+      {
+         e.printStackTrace();
+       }
+      catch (InterruptedException e) 
+      {
+         System.out.println("Disconnected from the server");
+      } 
+   }
+}
+
+
+
+ServerAsync.java
+
+package Asynchronous;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousServerSocketChannel;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+public class ServerAsync 
+{
+   public static void main(String[] args)
+    {
+      try (AsynchronousServerSocketChannel server =
+                              AsynchronousServerSocketChannel.open())
+       {
+         server.bind(new InetSocketAddress("127.0.0.1",1234));
+         Future<AsynchronousSocketChannel> acceptCon =
+                                                                         server.accept();
+         AsynchronousSocketChannel client = acceptCon.get(10,
+                                                                         TimeUnit.SECONDS);
+         if ((client!= null) && (client.isOpen())) 
+           {
+            ByteBuffer buffer = ByteBuffer.allocate(1024);
+            Future<Integer> readval = client.read(buffer);
+            System.out.println("Received from client: "+ new   
+                                                                String(buffer.array()).trim());
+            readval.get();
+            buffer.flip();
+            String str= "I'm fine. Thank you!";
+            Future<Integer> writeVal = client.write(            
+                                                          ByteBuffer.wrap(str.getBytes()));
+            System.out.println("Writing back to client: "+str);
+            writeVal.get();
+            buffer.clear();
+         }
+         client.close();
+      }
+       catch (Exception e) 
+       {
+         e.printStackTrace();
+      }
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OUTPUT:
+Server
+F:\jdk1.8\bin>javac ServerAsync.java
+F:\jdk1.8\bin>java ServerAsync
+
+Received from client:
+Writing back to client: I'm fine. Thank you!
+
+Client
+
+F:\jdk1.8\bin>javac ClientAsync.java
+F:\jdk1.8\bin>java ClientAsync
+
+Waiting to server: Hello! How are you?
+Received from server: I’m fine. Thank you
+
+
+
+
+
+
+
+
+
+
+RESULT:
+Thus the given program has been executed successfully.
+
+Ex.No. 05
+Date:
+Socket Programming To Implement Isochronous Communication
+
+
+AIM:
+To write a program to implement Isochronous Communication.
+
+ALGORITHM:
+
+CLIENT 
+
+Step 1: Start the program.
+Step 2: Create a socket which binds the IP address of server and the    
+             port address to acquire service.
+Step 3: After establishing connection send a data to server.
+Step 4: Close the socket.
+Step 5: Stop the program.
+
+SERVER
+
+Step 1: Start the program.
+Step 2: Create a server socket to activate the port address.
+Step 3: Create a socket for the server socket which accepts the connection.
+Step 4: After establishing connection receive the data from client.
+Step 5: Print the data.
+Step 6: Close the socket.
+Step 7: Stop the program.
+
+
+
+
+
+CODING:
+IsoClient.java
+import java.io.*; 
+import java.net.*; 
+class IsoClient
+ {
+public static void main(String args[]) 
+{
+try
+{
+Socket skt = new Socket("localhost", 1234); 
+BufferedReader in = new BufferedReader(new 
+                                                InputStreamReader(skt.getInputStream())); 
+System.out.print("Received string: ");
+while (!in.ready())
+ {
+ }
+System.out.println(in.readLine()); 
+System.out.print("\n"); 
+in.close();
+ }
+catch(Exception e)
+ {
+System.out.print("Whoops! It didn't work!\n");
+ }
+}
+}
+
+
+IsoServer.java
+
+import java.io.*; 
+import java.net.*; 
+class IsoServer
+ {
+    public static void main(String args[]) { String data = "Networks Lab";
+    try 
+    {
+    ServerSocket srvr = new ServerSocket(1234); Socket skt = srvr.accept();   
+    System.out.print("Server has connected!\n");
+    PrintWriter out = new PrintWriter(skt.getOutputStream(), true); 
+    System.out.print("Sending string: '" + data + "'\n");
+    out.print(data);
+    out.close();
+    skt.close();
+    srvr.close();
+    }
+    catch(Exception e)  
+    {
+    System.out.print("Whoops! It didn't work!\n");
+     }
+    }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OUTPUT:
+
+Server
+F:\jdk1.8\bin>javac IsoServer.java
+F:\jdk1.8\bin>java IsoServer
+
+Server has connected!
+Sending string:Networks Lab
+
+Client
+
+F:\jdk1.8\bin>javac IsoClient.java
+F:\jdk1.8\bin>java IsoClient
+
+Received string:Networks Lab
+
+
+
+
+
+
+
+
+
+
+
+
+RESULT:
+Thus the given program has been executed successfully.
+
+Ex.No. 06
+Date:
+ 
+ Implement Stop & Wait Protocol
+
+
+
+AIM:
+To write a program to implement stop & wait protocol.
+
+ALGORITHM:
+
+SENDER
+
+Step 1: Start the program.
+Step 2: Create the socket 
+Step 3: Enter the no of frame to be sent.
+Step 4: Send frames to server from the client side.
+Step 5: The sender sends one frame, stops until it receives confirmation 
+             from the receiver and then sends the next frame.
+Step 6: The sender receives acknowledgement from server after sending 
+             all frames. 
+Step 7: Stop the program.
+
+RECEIVER
+
+Step 1: Start the program.
+Step 2: Create the socket by specifying the address and establishes the 
+             connection. 
+Step 3: After receiving frames from the client it will send 
+             acknowledgement to client.
+Step 4: If server receives all frames it will display the message that all 
+            frames were received 
+Step 5: Stop the program.
+CODING :
+Stopwaitsender.java 
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+class stopwaitsender
+{
+public static void main(String args[]) throws Exception
+{
+stopwaitsender sws = new stopwaitsender();
+sws.run();
+}
+public void run() throws Exception
+{
+Scanner sc=new Scanner(System.in);
+System.out.println(“Enter no of frames to be sent:”);
+int n=sc.nextInt();
+Socket myskt=new Socket(“localhost”,9999);
+PrintStream myps=new PrintStream(myskt.getOutputStream());
+for(int i=0;i<=n;)
+{
+    	if(i==n)
+{
+myps.println(“exit”);
+break;
+}
+System.out.println(“Frame no “+i+” is sent”);
+myps.println(i);
+BufferedReader bf=new BufferedReader(new InputStreamReader(myskt.getInputStream()));
+String ack=bf.readLine();
+if(ack!=null)
+         {
+System.out.println(“Acknowledgement was received from Receiver”);
+i++;
+Thread.sleep(4000);
+        }
+        else
+      {
+myps.println(i);
+      }  
+     }   
+     }
+    }
+
+Stopwaitreceiver.java
+import java.io.*;
+import java.net.*;
+class stopwaitreceiver
+{
+public static void main(String args[])throws Exception
+    {
+ stopwaitreceiver swr = new stopwaitreceiver();
+ swr.run();
+         }
+     public void run() throws Exception
+    {
+String temp=”any message”,str=”exit”;
+ServerSocket myss=new ServerSocket(9999);
+Socket ss_accept=myss.accept();
+BufferedReader ss_bf=new BufferedReader(new InputStreamReader(ss_accept.getInputStream()));
+PrintStream myps=new PrintStream(ss_accept.getOutputStream());
+while(temp.compareTo(str)!=0)
+{
+Thread.sleep(1000);
+temp=ss_bf.readLine();
+if(temp.compareTo(str)==0)
+{ 
+break;
+}
+   	 System.out.println(“Frame “+temp+” was received”);
+    	 Thread.sleep(500);
+   	 myps.println(“Received”);
+         }
+        System.out.println(“ALL FRAMES  WERE RECEIVED SUCCESSFULLY”);
+  }
+  }
+OUTPUT:
+SENDER:
+C:\jdk1.8>javac stopwaitsender.java
+C:\ jdk1.8>java stopwaitsender.java
+
+Enter no of frames to be sent:
+4
+Frame no 0 is sent
+Acknowledgement was received from Receiver
+Frame no 1 is sent
+Acknowledgement was received from Receiver
+Frame no 2 is sent
+Acknowledgement was received from Receiver
+Frame no 3 is sent
+Acknowledgement was received from Receiver
+ 
+RECEIVER:
+C:\ jdk1.8>javac stopwaitreceiver.java
+C:\ jdk1.8>java stopwaitreceiver.java
+Frame 0 was received
+Frame 1 was received
+Frame 2 was received
+Frame 3 was received
+ALL FRAMES  WERE RECEIVED SUCCESSFULLY
+
+
+
+RESULT:
+Thus the given program has been executed successfully.
+Ex.No. 7
+Date: 
+Implement Sliding Window Protocol
+
+
+
+AIM:
+To write a program to implement sliding window protocol.
+
+ALGORITHM:
+Server
+Step 1: Start the program.
+Step 2: Create the socket by specifying the address and establishes the 
+             connection. 
+Step 3: Create connection with receiver. Otherwise Client will wait for a 
+             Connection.
+Step 4: Assign the window size =8           
+Step 5: Get the frame size from the user
+ Step 6: Read the messages to be send.
+ Step 7: create the frame based on the user request.
+Step 8: send frames to client.
+ Step 9:  send data and waiting for an ACK.
+ Step 10:  After getting ACK signal from client it will close connection.
+
+Client
+Step 1: Start the program.
+Step 2: Create the socket 
+Step 3: Client received message as frame by frame from server.
+ Step 4: After receiving frames from server it will send ACK signal to Server. 
+ Step 5: Stop the program
+
+
+
+CODING:
+slidsender.java
+
+import java.net.*;
+import java.io.*;
+import java.rmi.*;
+public class slidsender
+{
+public static void main(String args[]) throws Exception
+{
+ServerSocket ser=new ServerSocket(10);
+Socket s=ser.accept();
+BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+BufferedReader in1 = new BufferedReader(new                                                                 
+                                                                 InputStreamReader(System.in));
+String sbuff[]=new String[8];
+PrintStream p;
+int sptr=0,sws=8,nf,ano,i;
+String ch;
+do
+{
+p=new PrintStream(s.getOutputStream());
+System.out.println("Enter the number of frames: ");
+nf=Integer.parseInt(in.readLine());
+p.println(nf);
+if(nf<=sws-1)
+{
+System.out.println("Enter the "+nf+" messages to be send\n");
+for(i=1;i<=nf;i++)
+{
+sbuff[sptr]=in.readLine();
+p.println(sbuff[sptr]);
+sptr=++sptr%8;
+}
+sws=-nf;
+System.out.println("Acknowledgement received");
+ano=Integer.parseInt(in1.readLine());
+System.out.println("for "+ano+" frames");
+sws+=nf;
+}
+else
+{
+System.out.println("The number of frames exceeds window size");
+break;
+}
+System.out.println("\nDo you want to send some more frames?\n");
+ch=in.readLine();
+p.println(ch);
+}
+while(ch.equals("yes"));
+s.close();
+}
+}
+
+slidreceiver.java
+
+import java.net.*;
+import java.io.*;
+class slidreceiver
+{
+public static void main(String args[]) throws Exception
+{
+Socket s=new Socket(InetAddress.getLocalHost(),10);
+BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+PrintStream p=new PrintStream(s.getOutputStream());
+int i=0,rptr=-1,rws=8;
+String rbuff[]=new String[8];   
+String ch;
+System.out.println();
+int n;
+
+do
+{
+n=Integer.parseInt(in.readLine());
+if(n<rws-1)
+{
+for(i=1;i<=n;i++)
+{
+rptr=++rptr%8;
+rbuff[rptr]=in.readLine();
+System.out.println("The received frame "+rptr+" is "+rbuff[rptr]);
+}
+rws-=n;
+System.out.println("\nAcknowledgement sent\n");
+p.print(rptr+1);
+rws+=n;
+}
+else
+break;
+ch=in.readLine();
+}
+while(ch.equals("yes"));
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OUTPUT:
+SENDER:
+F:\jdk1.8\bin>javac slidsender.java
+F:\jdk1.8\bin>java slidsender
+
+Enter the number of frames:
+4
+Hi
+Welcome to
+Cyber Security
+Lab
+Acknowledgement received for 4 frames
+Do you want to send some more frames?: no
+
+RECEIVER:
+F:\jdk1.8\bin>javac slidreceiver.java
+F:\jdk1.8\bin>java slidreceiver
+
+The received Frame 0 is: Hi
+The received Frame 1 is: Welcome
+The received Frame 2 is: Cyber Security
+The received Frame 3 is: Class
+Acknowledgement Sent
+
+
+
+
+RESULT:
+Thus the given program has been executed successfully.
+
+Ex.No. 8
+Date: 
+Shortest Path Routing Using Dijkstra Algorithm
+
+
+AIM:
+To write a program to implement the shortest path routing using Dijkstra’s Algorithm.
+
+ALGORITHM:
+
+Step 1: Start the program
+Step 2: Import utility classes
+Step 3: Declare Member variables of this class and Number of vertices
+Step 4: Define constructor of the class
+Dijkstra Algorithm:
+Step 5: Add source node to the priority queue
+Step 6: Assign distance to the source is zero.
+Step 7: When priority queue is empty terminate the loop by return.
+Step 8: Remove the node which is having minimum distance from the priority 
+             queue.
+Step 9: Add the node whose distance is finalized.
+Step 10: No need to call e_Neighbors(u),  if u is already present in the settled 
+             set
+To process all the neighbors of the passed node:
+Step 11: If current node hasn't already been processed, and new distance is 
+              cheaper in cost, add the current node to the queue
+Main Method:
+Step 12: Adjacency list representation of the connected edges 
+Step 13: Declare List class object
+Step 14: Declare object of type List<Node>
+Step 15: Initialize list for every node
+Step 16: Provide Inputs for the GFG(dpq) graph
+Step 17: Calculate the single source shortest path
+Step 18: Printing the shortest path to all the nodes from the source node
+Step 19: Define class Node implements Comparator interface for representing 
+               a node in the graph
+
+
+CODING:
+
+GFG.java
+import java.util.*;
+public class GFG
+ {
+    private int dist[];
+    private Set<Integer> settled;
+    private PriorityQueue<Node> pq;
+    private int V;
+    List<List<Node> > adj;
+    public GFG(int V)
+    {
+        this.V = V;
+        dist = new int[V];
+        settled = new HashSet<Integer>();
+        pq = new PriorityQueue<Node>(V, new Node());
+    }
+    public void dijkstra(List<List<Node> > adj, int src)
+    {
+        this.adj = adj;
+        for (int i = 0; i < V; i++)
+            dist[i] = Integer.MAX_VALUE;
+        pq.add(new Node(src, 0));
+        dist[src] = 0;
+        while (settled.size() != V) 
+       {
+          if (pq.isEmpty())
+                return;
+           int u = pq.remove().node;
+           if (settled.contains(u))
+                continue;   
+            settled.add(u);
+            e_Neighbours(u);
+        }
+    }
+    private void e_Neighbours(int u)
+    {
+        int edgeDistance = -1;
+        int newDistance = -1;
+        for (int i = 0; i < adj.get(u).size(); i++) 
+         {
+            Node v = adj.get(u).get(i);
+            if (!settled.contains(v.node))
+            {
+                edgeDistance = v.cost;
+                newDistance = dist[u] + edgeDistance;
+                if (newDistance < dist[v.node])
+                    dist[v.node] = newDistance;
+                pq.add(new Node(v.node, dist[v.node]));
+            }
+        }
+    }
+
+    public static void main(String arg[])
+    {
+        int V = 5;
+        int source = 0;
+        List<List<Node> > adj = new ArrayList<List<Node> >();
+        for (int i = 0; i < V; i++)
+        {
+            List<Node> item = new ArrayList<Node>();
+            adj.add(item);
+        }
+        adj.get(0).add(new Node(1, 9));
+        adj.get(0).add(new Node(2, 6));
+        adj.get(0).add(new Node(3, 5));
+        adj.get(0).add(new Node(4, 3));
+        adj.get(2).add(new Node(1, 2));
+        adj.get(2).add(new Node(3, 4));
+        GFG dpq = new GFG(V);
+        dpq.dijkstra(adj, source);
+        System.out.println("The shorted path from node :");
+        for (int i = 0; i < dpq.dist.length; i++)
+            System.out.println(source + " to " + i + " is "+ dpq.dist[i]);
+    }
+ }
+class Node implements Comparator<Node> 
+ {
+    public int node;
+    public int cost;
+    public Node()
+        {}
+    public Node(int node, int cost)
+     {
+        this.node = node;
+        this.cost = cost;
+      }
+    @Override public int compare(Node node1, Node node2)
+    {
+        if (node1.cost < node2.cost)
+            return -1;
+        if (node1.cost > node2.cost)
+            return 1;
+        return 0;
+    }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OUTPUT:
+F:\jdk1.8\bin>javac GFG.java
+
+F:\jdk1.8\bin>java GFG
+
+The shorted path from node :
+0 to 0 is 0
+0 to 1 is 8
+0 to 2 is 6
+0 to 3 is 5
+0 to 4 is 3
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RESULT:
+Thus the given program has been executed successfully
+EX.NO. 9
+DATE: 
+SOCKET PROGRAMMING TO PERFORM FILE TRANSFER FROM SERVER TO THE CLIENT
+
+
+AIM:
+To write a program to implement socket programming to perform file transfer from server to the client.
+
+ALGORITHM:
+             
+CLIENT 
+
+Step 1: Start the program.
+Step 2: Create client socket and Establish a connection between the 
+             Client and Server.
+Step 3: Initialize the FileOutputStream to the output file's full path.
+Step 4: Get file name and send to server.
+Step 5: Read the file contents from server stream.
+Step 6: Close Client socket.
+Step 7: Stop the program
+
+SERVER 
+
+Step 1: Start the program.
+Step 2: Implement a server socket that listens to a particular port number.
+Step 3: Server reads the filename and sends the data stored in the file 
+Step 4 : It reads the data from the input stream and writes file contents 
+              onto stream .
+Step 5: Send the file to client.
+Step 6: Close all streams.
+Step 7: Close the server and client socket connection.
+Step 8: Stop the program
+
+CODING :
+
+FileServer.java
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+public class FileServer
+{
+ public static void main(String[] args) throws Exception
+{
+ ServerSocket ssock = new ServerSocket(8500);
+ Socket socket = ssock.accept();
+ InetAddress IA = InetAddress.getByName("localhost");
+ File file = new File("FileServer.class");
+ FileInputStream fis = new FileInputStream(file);
+ BufferedInputStream bis = new BufferedInputStream(fis);
+ OutputStream os = socket.getOutputStream();
+ byte[] contents;
+ long fileLength = file.length();
+ long current = 0;
+ long start = System.nanoTime();
+ while(current!=fileLength){
+ int size = 10000;
+ if(fileLength - current >= size)
+ current += size;
+    else
+     {
+      size = (int)(fileLength - current);
+      current = fileLength;
+    }
+ contents = new byte[size];
+ bis.read(contents, 0, size);
+ os.write(contents);
+ System.out.print("Sending file ..."+(current*100)/fileLength+"% complete!");
+  }
+ os.flush();
+ socket.close();
+ ssock.close();
+ System.out.println("File sent succesfully!");
+  } 
+}
+
+
+
+FileClient.java
+
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+public class FileClient
+{
+ public static void main(String[] args) throws Exception
+ {
+ Socket socket = new Socket(InetAddress.getByName("localhost"), 8500);
+ byte[] contents = new byte[10000];
+ FileOutputStream fos = new FileOutputStream("output.txt");
+ BufferedOutputStream bos = new BufferedOutputStream(fos);
+ InputStream is = socket.getInputStream();
+ int bytesRead = 0;
+ while((bytesRead=is.read(contents))!=-1)
+ bos.write(contents, 0, bytesRead);
+ bos.flush();
+ socket.close();
+ System.out.println("File saved successfully!");
+  }
+}
+
+
+
+
+
+OUTPUT:
+
+F:\Javac FileServer.java
+
+F:\Java FileServer
+
+Sending file ... 100% complete!File sent succesfully!
+
+
+F:\Javac FileClient.java
+
+F:\Java FileClient
+
+File saved successfully!
+
+
+
+
+
+
+
+
+
+
+
+RESULT:
+Thus the given program has been executed successfully.
+EX.NO. 10
+DATE: 
+IMPLEMENT REMOTE PROCEDURE CALL UNDER CLIENT/SERVER ENVIRONMENT
+
+
+AIM:
+To write a program to implement remote procedure call under client/server environment.
+
+ALGORITHM:
+Interface
+Step 1: Define a remote interface search
+Step 2: Declare query method.
+Step 3: Declare SearchQuery class by extends Unicast remote object 
+Step 4: Implement the remote interface search 
+Step 5: Use constructor to inherits from parent
+Step 6: Implementation of the query method 
+Server
+Step 1: Start the program
+Step 2: Include the necessary packages in java
+Step 3: Declare the class server 
+Step 4: Create an object obj of the class SearchQuery
+Step 5: Locate rmiregistry within the server JVM with port number 1900
+Step 6: Binds the remote object by the name.
+Step 7: Stop the program
+Client
+Step 1: Start the program
+Step 2: Declare the class client.
+Step 3: Call lookup method to find reference of remote object
+Step 4: Call the remote method query using the object of the interface  
+             Search.
+Step 5: Stop the program.
+
+
+CODING :
+
+Search.java
+
+import java.rmi.*;
+public interface Search extends Remote
+  {
+    public String query(String search) throws RemoteException;
+  }
+
+
+SearchQuery.java 
+import java.rmi.*;
+import java.rmi.server.*;
+public class SearchQuery extends UnicastRemoteObject implements Search
+{
+    SearchQuery() throws RemoteException
+    {
+        super();
+    }
+    public String query(String search) throws RemoteException
+    {
+        String result;
+        if (search.equals("Reflection in Java"))
+            result = "Found";
+        else
+            result = "Not Found";
+        return result;
+    }
+}
+
+
+SearchServer.java 
+
+import java.rmi.*;
+import java.rmi.registry.*;
+public class SearchServer
+{
+    public static void main(String args[])
+    {
+        try
+        {
+            Search obj = new SearchQuery();
+            LocateRegistry.createRegistry(1900);
+            Naming.rebind("rmi://localhost:1900"+ "/google",obj);
+        }
+        catch(Exception ae)
+        {
+            System.out.println(ae);
+        }
+    }
+}
+
+
+
+ClientRequest.java 
+
+import java.rmi.*;
+public class ClientRequest
+{
+    public static void main(String args[])
+    {
+        String answer,value="Reflection in Java";
+        try
+        {
+         Search access =(Search)Naming.lookup("rmi://localhost:1900"+
+                                                                                      "/google");
+            answer = access.query(value);
+            System.out.println("Article on " + value +" " + answer+" at Google");
+        }
+        catch(Exception ae)
+         {
+           System.out.println(ae);
+         }
+    }
+}
+
+
+OUTPUT:
+
+
+F:\jdk1.8\bin>javac Search.java
+
+F:\jdk1.8\bin>javac SearchQuery.java
+
+F:\jdk1.8\bin>javac SearchServer.java
+
+F:\jdk1.8\bin>javac ClientRequest.java
+
+F:\jdk1.8\bin>start rmiregistry
+
+F:\jdk1.8\bin>java SearchServer
+
+F:\jdk1.8\bin>java ClientRequest
+
+Article on Reflection in Java Found at Google
+
+
+
+
+
+
+
+RESULT:
+Thus the given program has been executed successfully.
+
+EX.NO. 11
+DATE: 
+CODE SIMULATING PING AND TRACEROUTE COMMANDS
+
+
+AIM:
+To write a program to implement code simulating ping and traceroute commands.
+
+ALGORITHM:
+
+Pingip
+Step 1: Start the program
+Step 2: Include necessary package in java.
+Step 3: To create a process object g to implement the ping command.         
+         Step 4: Sends ping request to a provided IP address.
+Step 5: If the host is reachable the output will be “host is reachable”
+Step 6: Otherwise, it will be “sorry  ! we can’t reach to this host”
+
+Traceroute:
+Step 1: Start the program
+Step 2: Include necessary package in java.
+Step 3: Declare one Buffered Reader Stream class object.
+Step 4: Get the details of server using Trace route command.
+Step 5: The system date will be displayed.
+Step 6: Print the results.
+Step 7: Stop the program.
+
+               
+
+
+
+
+
+CODING:
+
+Pingip.java
+
+import java.io.*;
+import java.net.*;
+class pingip
+{
+  public static void sendPingRequest(String ipAddress)  throws                
+UnknownHostException, IOException
+  {
+    InetAddress g = InetAddress.getByName(ipAddress);
+    System.out.println("Sending Ping Request to " + ipAddress);
+    if (g.isReachable(5000))
+      System.out.println("Host is reachable");
+    else
+      System.out.println("Sorry ! We can't reach to this host");
+  }
+  public static void main(String[] args) throws UnknownHostException,  
+                                                                     IOException
+  {
+    String ipAddress = "localhost";
+    sendPingRequest(ipAddress);
+  }
+}
+	
+tracert.java 
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+public class tracert
+{
+public static void runSystemCommand(String Command)
+{
+   try
+   {
+     Process p=Runtime.getRuntime().exec(Command);
+    
+
+ BufferedReader InputStream=new BufferedReader(new          
+                                           InputStreamReader(p.getInputStream()));
+     String s=” “;
+     while((s=InputStream.readLine())!=null)
+     {
+      System.out.println(s);
+     }
+  }
+catch(Exception e)
+  {
+    e.printStackTrace();
+   }
+ }
+public static void main(String[]args)
+ {
+    String Ip=” 67.195.160.76″;
+    runSystemCommand(“tracert” +Ip);
+    java.util.Date date=new java.util.Date();
+   System.out.println(date);
+ }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OUTPUT:
+
+F:\jdk1.8\bin>javac pingip.java
+
+F:\jdk1.8\bin>java pingip
+
+Sending Ping Request to localhost
+Host is reachable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RESULT:
+
+Thus the given program has been executed successfully.
+
+
+EX.NO. 12
+DATE: 
+IMPLEMENTATION OF SUBNETTING
+
+
+AIM:
+To write a program to implement subnetting.
+
+ALGORITHM:
+
+Step 1: Start the program.
+Step 2: Enter the IP address and split the string that displayed in binary 
+             Form.
+Step 3: Enter the number of addresses 
+Step 4: Calculate mask using ceil function.
+Step 5: Enter the no of bits required for address.
+Step 6: Find the subnet masks and calculate first and last addresses.
+Step 7: Get first address by ANDing last n bits with 0
+Step 8: Get last address by ORing last n bits with 1
+Step 9: Print The subnet Mask, First address and Last address
+Step 10: Stop the program.
+
+
+CODING:
+
+Subnet.java
+
+import java.util.Scanner;
+class Subnet
+{
+public static void main(String args[])
+{
+Scanner sc = new Scanner(System.in);
+System.out.print("Enter the IP address: ");
+String ip = sc.nextLine();
+String split_ip[] = ip.split("\\."); 
+String split_bip[] = new String[4]; 
+String bip = "";
+         for(int i=0;i<4;i++)
+       {
+split_bip[i] = appendZeros(Integer.toBinaryString(Integer.parseInt(split_ip[i]))); 
+bip += split_bip[i];
+      }
+System.out.println("IP in binary is "+bip);
+System.out.print("Enter the number of addresses: ");
+int n = sc.nextInt();
+int bits = (int)Math.ceil(Math.log(n)/Math.log(2)); 
+System.out.println("Number of bits required for address = "+bits);
+int mask = 32-bits;
+System.out.println("The subnet mask is = "+mask);
+int fbip[] = new int[32];
+for(int i=0; i<32;i++)
+  fbip[i] = (int)bip.charAt(i)-48; 
+for(int i=31;i>31-bits;i--)
+  fbip[i] &= 0;
+String fip[] = {"","","",""};
+for(int i=0;i<32;i++)
+  fip[i/8] = new String(fip[i/8]+fbip[i]);
+System.out.print("First address is = ");
+for(int i=0;i<4;i++)
+{
+System.out.print(Integer.parseInt(fip[i],2));
+if(i!=3) 
+System.out.print(".");
+}
+System.out.println();
+int lbip[] = new int[32];
+for(int i=0; i<32;i++) 
+  lbip[i] = (int)bip.charAt(i)-48; 
+for(int i=31;i>31-bits;i--)
+  lbip[i] |= 1;
+String lip[] = {"","","",""};
+for(int i=0;i<32;i++)
+ lip[i/8] = new String(lip[i/8]+lbip[i]);
+System.out.print("Last address is = ");
+for(int i=0;i<4;i++)
+ {
+System.out.print(Integer.parseInt(lip[i],2));
+if(i!=3) System.out.print(".");
+ }
+System.out.println();
+}
+static String appendZeros(String s)
+{
+String temp = new String("00000000");
+return temp.substring(s.length())+ s;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OUTPUT:
+F:\jdk1.8\bin>javac Subnet.java
+
+F:\jdk1.8\bin>java Subnet.java
+
+Enter the IP address: 123.112.1.1
+IP in binary is 01111011011100000000000100000001
+Enter the number of addresses: 2
+Number of bits required for address = 1
+The subnet mask is = 31
+First address is = 123.112.1.0
+Last address is = 123.112.1.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RESULT:
+Thus the given program has been executed successfully.
