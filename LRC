@@ -1,0 +1,42 @@
+LRC.C
+#include<stdio.h>
+#include<conio.h>
+int main ()
+{
+int l1,bit[100],count=0,i,choice;
+printf("Enter the length of data stream:");
+scanf("%d",&l1);
+printf("\n Enter the data stream");
+for(i=0;i<=l1;i++)
+{
+scanf("%d",&bit[i]);
+if(bit[i]==1)
+count=count+1;
+}
+printf("Number of 1's are %d",count);
+printf("\n Enter the choice to implement parity bit");
+printf("\n-1 Sender side\n-2 Receiver side\n");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:
+if(count%2==0)
+bit[l1]==0;
+else
+bit[l1]==1;
+printf("\n The data stream after adding parity bit is\n");
+for(i=0;i<=l1;i++)
+printf("%d",bit[i]);
+break;
+case 2:
+if(count%2==0)
+printf("There is an error in the received data stream");
+else
+printf("There are no error in the received data stream");
+break;
+default:
+printf("Invalid choice");
+break;
+}
+getch();
+}
